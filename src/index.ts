@@ -5,7 +5,7 @@ import { handleOptions } from './handleOptions'
 // Create a new router
 const router = Router()
 
-router.get('/api/account/:user', async (request: any, { params }) => {
+router.get('/api/account/:user', async (request, { params }) => {
   // Return the HTML with the string to the client
   const user = decodeURIComponent(params.user)
   const data = await fetch(
@@ -23,9 +23,7 @@ router.get('/api/account/:user', async (request: any, { params }) => {
     'Access-Control-Allow-Origin',
     'https://young-basin-03851.herokuapp.com',
   )
-  if (request.credentials === 'include') {
-    response.headers.set('Access-Control-Allow-Credentials', 'true')
-  }
+
   response.headers.set(
     'Access-Control-Allow-Origin',
     'https://young-basin-03851.herokuapp.com',
