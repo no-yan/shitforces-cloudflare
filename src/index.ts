@@ -31,6 +31,7 @@ router.get('/api/account/:user', async ({ params }) => {
   )
   response.headers.set('Access-Control-Allow-Methods', 'GET,HEAD,POST,OPTIONS')
   response.headers.set('Access-Control-Max-Age', '86400')
+  response.headers.set('Access-Control-Allow-Credentials', 'true')
   return response
 })
 
