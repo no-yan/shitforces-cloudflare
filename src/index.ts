@@ -6,7 +6,7 @@ import { handleOptions } from './handleOptions'
 const router = Router()
 
 // https://myapp.noyan.workers.dev/api/account/hoge
-router.get('/api/account/:user', async ({ params }) => {
+router.get('/api/account/:user', async ({ params }): Promise<Response> => {
   // Return the HTML with the string to the client
   const user = decodeURIComponent(params?.user || '')
   const data = await fetch(
@@ -30,37 +30,73 @@ router.get('/api/account/:user', async ({ params }) => {
     'https://young-basin-03851.herokuapp.com',
   )
   response.headers.set('Access-Control-Allow-Methods', 'GET,HEAD,POST,OPTIONS')
-  response.headers.set('Access-Control-Max-Age', '86400')
+  response.headers.set('Access-Control-Max-Age', '600')
   response.headers.set('Access-Control-Allow-Credentials', 'true')
   return response
 })
 
 // https://myapp.noyan.workers.dev/api/contests/latest?contest_page=0
-router.get('/api/contests/latest?', async ({ query }: any) => {
-  // eslint-disable-next-line camelcase
-  const { contest_page } = query
-  const data = await fetch(
+router.get(
+  '/api/contests/latest?',
+  async ({ query }: any): Promise<Response> => {
     // eslint-disable-next-line camelcase
-    `https://young-basin-03851.herokuapp.com/api/contests/latest?contest_page=${contest_page}`,
-    { cf: { cacheEverything: true } },
-  )
-  const response = new Response(data.body, data)
-  response.headers.set('Cache-Control', 'max-age=1500')
-  response.headers.set(
-    'Access-Control-Allow-Origin',
-    'https://young-basin-03851.herokuapp.com',
-  )
-  response.headers.set('Access-Control-Allow-Methods', 'GET,HEAD,POST,OPTIONS')
-  response.headers.set('Access-Control-Max-Age', '86400')
-  response.headers.set('Access-Control-Allow-Credentials', 'true')
-  return response
-})
+    const { contest_page } = query
+    const data = await fetch(
+      `https://young-basin-03851.herokuapp.com/api/contests/latest?contest_page=${contest_page}`,
+      { cf: { cacheEverything: true } },
+    )
+    const response = new Response(data.body, data)
+    response.headers.set('Cache-Control', 'max-age=60')
+    response.headers.set(
+      'Access-Control-Allow-Origin',
+      'https://young-basin-03851.herokuapp.com',
+    )
+    response.headers.set(
+      'Access-Control-Allow-Methods',
+      'GET,HEAD,POST,OPTIONS',
+    )
+    response.headers.set('Access-Control-Max-Age', '86400')
+    response.headers.set('Access-Control-Allow-Credentials', 'true')
+    return response
+  },
+)
 
-router.get('/api/account/:user/history', async ({ params }: any) => {
-  // Return the HTML with the string to the client
-  const user = decodeURIComponent(params.user)
+router.get(
+  '/api/account/:user/history',
+  async ({ params }: any): Promise<Response> => {
+    // Return the HTML with the string to the client
+    const user = decodeURIComponent(params.user)
+    const data = await fetch(
+      `https://young-basin-03851.herokuapp.com/api/account/${user}/history`,
+      {
+        cf: {
+          cacheEverything: true,
+          cacheTtlByStatus: { '200-299': 100, 404: 1, '500-599': 0 },
+        },
+      },
+    )
+    const response = new Response(data.body, data)
+    response.headers.set('Cache-Control', 'max-age=1500')
+    response.headers.set(
+      'Access-Control-Allow-Origin',
+      'https://young-basin-03851.herokuapp.com',
+    )
+    response.headers.set(
+      'Access-Control-Allow-Methods',
+      'GET,HEAD,POST,OPTIONS',
+    )
+    response.headers.set('Access-Control-Max-Age', '86400')
+    response.headers.set('Access-Control-Allow-Credentials', 'true')
+    return response
+  },
+)
+// http://127.0.0.1:8787/api/account/noyan
+// https://myapp.noyan.workers.dev/api/account/noyan
+
+router.get('/api/ranking?', async ({ query }: any): Promise<Response> => {
+  const { page } = query
   const data = await fetch(
-    `https://young-basin-03851.herokuapp.com/api/account/${user}/history`,
+    `https://young-basin-03851.herokuapp.com/api/ranking?page=${page}`,
     {
       cf: {
         cacheEverything: true,
@@ -74,27 +110,10 @@ router.get('/api/account/:user/history', async ({ params }: any) => {
     'Access-Control-Allow-Origin',
     'https://young-basin-03851.herokuapp.com',
   )
-
-  response.headers.set(
-    'Access-Control-Allow-Origin',
-    'https://young-basin-03851.herokuapp.com',
-  )
   response.headers.set('Access-Control-Allow-Methods', 'GET,HEAD,POST,OPTIONS')
   response.headers.set('Access-Control-Max-Age', '86400')
   response.headers.set('Access-Control-Allow-Credentials', 'true')
   return response
-})
-// http://127.0.0.1:8787/api/account/noyan
-// https://myapp.noyan.workers.dev/api/account/noyan
-
-router.get('/api/ranking?', ({ query }: any) => {
-  const { page } = query
-  return fetch(
-    `https://young-basin-03851.herokuapp.com/api/ranking?page=${page}`,
-    {
-      cf: { cacheEverything: true },
-    },
-  )
 })
 
 router.get('/', () => {

@@ -27,7 +27,7 @@ export function handleOptions(request: any): Response {
         'Access-Control-Request-Headers',
       ),
       ...corsHeaders,
-      'Access-Control-Max-Age': '0',
+      'Access-Control-Max-Age': '600',
 
       // Allow all future content Request headers to go back to browser
       // such as Authorization (Bearer) or X-Client-Name-Version
