@@ -40,3 +40,4 @@ The `service-worker-mock` used by the tests is not a perfect representation of t
 # shitforces-cloudflare
 # shitforces-cloudflare
 # shitforces-cloudflare
+# shitforces-cloudflare
