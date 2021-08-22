@@ -50,6 +50,9 @@ router.get('/api/contests/latest?', async ({ query }: any) => {
     'Access-Control-Allow-Origin',
     'https://young-basin-03851.herokuapp.com',
   )
+  response.headers.set('Access-Control-Allow-Methods', 'GET,HEAD,POST,OPTIONS')
+  response.headers.set('Access-Control-Max-Age', '86400')
+  response.headers.set('Access-Control-Allow-Credentials', 'true')
   return response
 })
 
@@ -66,11 +69,19 @@ router.get('/api/account/:user/history', async ({ params }: any) => {
     },
   )
   const response = new Response(data.body, data)
-  response.headers.set('Cache-Control', 'max-age=15')
+  response.headers.set('Cache-Control', 'max-age=1500')
   response.headers.set(
     'Access-Control-Allow-Origin',
     'https://young-basin-03851.herokuapp.com',
   )
+
+  response.headers.set(
+    'Access-Control-Allow-Origin',
+    'https://young-basin-03851.herokuapp.com',
+  )
+  response.headers.set('Access-Control-Allow-Methods', 'GET,HEAD,POST,OPTIONS')
+  response.headers.set('Access-Control-Max-Age', '86400')
+  response.headers.set('Access-Control-Allow-Credentials', 'true')
   return response
 })
 // http://127.0.0.1:8787/api/account/noyan
