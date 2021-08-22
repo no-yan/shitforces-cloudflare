@@ -5,9 +5,10 @@ import { handleOptions } from './handleOptions'
 // Create a new router
 const router = Router()
 
-router.get('/api/account/:user', async (request, { params }) => {
+// https://myapp.noyan.workers.dev/api/account/hoge
+router.get('/api/account/:user', async ({ params }) => {
   // Return the HTML with the string to the client
-  const user = decodeURIComponent(params.user)
+  const user = decodeURIComponent(params?.user || '')
   const data = await fetch(
     `https://young-basin-03851.herokuapp.com/api/account/${user}`,
     {
@@ -32,6 +33,7 @@ router.get('/api/account/:user', async (request, { params }) => {
   response.headers.set('Access-Control-Max-Age', '86400')
   return response
 })
+
 // https://myapp.noyan.workers.dev/api/contests/latest?contest_page=0
 router.get('/api/contests/latest?', async ({ query }: any) => {
   // eslint-disable-next-line camelcase
