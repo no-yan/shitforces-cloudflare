@@ -1,4 +1,10 @@
-# ʕ •́؈•̀) `workers-typescript-template`
+# Shitforces API but faster!
+
+ShitforcesというなぞなぞコンテストサイトのAPIをcloudflare workersを噛ませて高速化する。
+
+自分のコントリビュートしているShitforcesはHerokuの海外サーバーを使用するためレスポンスが遅いです。たとえばFirst Contentful Paintが2.2s, Largest Contentful Paintが2.8sと大変遅いのため、いくつか解決を試みました。この実験ではCDN workerを噛ませることによってAPI レスポンスを500~700msから50msに改善しました。一方で、herokuドメインを使っているためメインの課題であるjsファイルのキャッシュが行なえず、またフェッチのwater fallを別PRで解決したため、これを実際に採用はしませんでした。
+
+
 
 A batteries included template for kick starting a TypeScript Cloudflare worker project.
 
